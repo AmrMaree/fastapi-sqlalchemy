@@ -23,11 +23,7 @@ class User(Base):
         comments = relationship('Comment', backref='user')
 
         def __repr__(self):
-                return "User(id={self.id}, " \
-                          "name={self.name}, " \
-                          "email={self.email}, " \
-                          "password={self.password}, " \
-                          "salt={self.salt})".format(self=self)
+                return "User(id={self.id},name={self.name},email={self.email},password={self.password},salt={self.salt})".format(self=self)
                                                         
     
 class Post(Base):
@@ -40,10 +36,7 @@ class Post(Base):
         comments = relationship('Comment', backref='post')        
         
         def __repr__(self):
-                return "Post(id={self.id}, " \
-                          "title={self.title}, " \
-                          "content={self.content}, " \
-                          "user_id={self.user_id})".format(self=self)
+                return "Post(id={self.id},title={self.title},content={self.content},user_id={self.user_id})".format(self=self)
 
 class Comment(Base):
            __tablename__= 'comments'
@@ -53,10 +46,7 @@ class Comment(Base):
            user_id = Column('user_id', ForeignKey('users.id')) 
 
            def __repr__(self):
-                return "Comment(id={self.id}, " \
-                          "content={self.content}, " \
-                          "post_id={self.post_id}, " \
-                          "user_id={self.user_id})".format(self=self)
+                return "Comment(id={self.id},content={self.content},post_id={self.post_id},user_id={self.user_id})".format(self=self)
            
     
 Base.metadata.create_all(engine)
