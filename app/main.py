@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from app import models
+from app.db_pg import SessionLocal,engine
+from app.routers import users_apis,posts_apis,comments_apis
+
+
+models.Base.metadata.create_all(engine)
 
 app = FastAPI(title="My FastAPI Project", description="This is my Project's API Service")
 
@@ -15,6 +21,10 @@ app.add_middleware(
 @app.get("/",tags=["default"])
 def root():
     return {"message":"Welcome to FastAPI"}
+
+app.include_router(users_apis.router, prefix="/users",tags=["users"])
+#app.include_router(posts_apis.router,prefix="/posts",tags=["posts"])
+#app.include_router(comments_apis.router, prefix="/comments", tags=["comments"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host= "0.0.0.0", port=8000)

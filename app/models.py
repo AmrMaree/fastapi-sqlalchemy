@@ -1,15 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
-from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-DATABASE_URL = 'postgresql+psycopg2://postgres:123@localhost:5433/posts'
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
-session = Session()
-
-
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from app.db_pg import Base
 
 class User(Base):
         __tablename__='users'
@@ -49,4 +40,3 @@ class Comment(Base):
                 return "Comment(id={self.id},content={self.content},post_id={self.post_id},user_id={self.user_id})".format(self=self)
            
     
-Base.metadata.create_all(engine)
