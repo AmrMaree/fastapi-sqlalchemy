@@ -1,10 +1,8 @@
-import json
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.services.users_svc import users_svc
 from app.db_pg import get_db
-
 
 router = APIRouter()
 u_svc = users_svc()

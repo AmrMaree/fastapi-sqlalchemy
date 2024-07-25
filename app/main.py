@@ -23,7 +23,7 @@ def root():
     return {"message":"Welcome to FastAPI"}
 
 app.include_router(users_apis.router, prefix="/users",tags=["users"])
-#app.include_router(posts_apis.router,prefix="/posts",tags=["posts"])
+app.include_router(posts_apis.router,prefix="/posts",tags=["posts"])
 #app.include_router(comments_apis.router, prefix="/comments", tags=["comments"])
 
 if __name__ == "__main__":
