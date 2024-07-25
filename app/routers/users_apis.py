@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.services.users_svc import users_svc
 from app.db_pg import get_db
+from app.services.auth_svc import oauth2_scheme
 
 router = APIRouter()
 u_svc = users_svc()
@@ -23,7 +24,7 @@ def login(db: Session= Depends(get_db), form_data: OAuth2PasswordRequestForm = D
     return JSONResponse(status_code= 404,content= result["message"])
 
 @router.get("/")
-def get_users(db: Session= Depends(get_db)):
+def get_users(db: Session= Depends(get_db), token: str = Depends(oauth2_scheme)):
     try:
         users= u_svc.get_users(db)
     except Exception as ex:
@@ -32,7 +33,7 @@ def get_users(db: Session= Depends(get_db)):
     return JSONResponse(status_code=200,content= users_data)
 
 @router.delete("/")
-def delete_user(id : int, db: Session= Depends(get_db)):
+def delete_user(id : int, db: Session= Depends(get_db), token: str = Depends(oauth2_scheme)):
     result = u_svc.delete_user(db, id)
     if result["success"]:
         return JSONResponse(status_code=200,content= result["message"])
