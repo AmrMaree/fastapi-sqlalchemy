@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from app.dac.dac_pg import dac_pg
+from app.dac.dac import dac
 
 class comments_svc:
     def __init__(self):
-        self.dac = dac_pg()
+        self.dac = dac()
 
     def create_comment(self, db : Session, content : str, post_id : int, user_id : int):
         if self.dac.create_comment(db, content, post_id, user_id):

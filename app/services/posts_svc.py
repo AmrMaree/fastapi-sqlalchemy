@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from app.dac.dac_pg import dac_pg
+from app.dac.dac import dac
 
 class posts_svc:
     def __init__(self):
-        self.dac = dac_pg()
+        self.dac = dac()
 
     def create_post(self, db : Session, title : str, content : str, userid : int):
         if self.dac.create_post(db, title , content , userid):
