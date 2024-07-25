@@ -44,5 +44,29 @@ class dac_pg:
 
     def get_posts(self, db : Session):
         return db.query(models.Post).all()
-
     
+    def create_comment(self, db : Session, content : str, post_id: int, user_id : int):
+        try:
+            comment= models.Comment(content=content,post_id=post_id,user_id=user_id)
+            db.add(comment)
+            db.commit()
+            db.refresh(comment)
+        except Exception as ex:
+            print("Failed to create a new comment")
+            raise ex
+        return comment
+    
+    def get_post_comments(self, db : Session, post_id : int):
+        return db.query(models.Comment).filter(models.Comment.post_id == post_id).all() 
+    
+    def delete_comment(self, db : Session, id : int):
+        try:
+            comment= db.query(models.Comment).filter(models.Comment.id == id).first()
+            if comment:
+                db.delete(comment)
+                db.commit()
+                return True
+            return False
+        except Exception as ex:
+            print("Failed to delete post")
+            raise ex
