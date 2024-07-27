@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.services.comments_svc import comments_svc
-from app.db_pg import get_db
+from app.config import get_db
 from app.services.auth_svc import oauth2_scheme
 
 router = APIRouter()

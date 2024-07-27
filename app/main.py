@@ -1,10 +1,13 @@
+from dotenv import load_dotenv
+import uvicorn
+
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 from app import models
-from app.db_pg import SessionLocal,engine
+from app.config import engine
 from app.routers import users_apis,posts_apis,comments_apis
-
 
 models.Base.metadata.create_all(engine)
 
