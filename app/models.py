@@ -20,8 +20,8 @@ class User(Base):
 class Post(Base):
         __tablename__= 'posts'
         id = Column('id', Integer(), primary_key=True, index=True)
-        title = Column('title', String(55), nullable=False)
-        content = Column('content', String(55), nullable=False)
+        title = Column('title', String(50), nullable=False)
+        content = Column('content', String(50), nullable=False)
         user_id = Column('user_id', ForeignKey('users.id'))  
 
         comments = relationship('Comment', backref='post', cascade='all, delete-orphan')        
