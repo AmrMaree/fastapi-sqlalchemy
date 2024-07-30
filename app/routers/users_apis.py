@@ -5,16 +5,17 @@ from sqlalchemy.orm import Session
 from app.services.users_svc import users_svc
 from app.config import get_db
 from app.services.auth_svc import oauth2_scheme
+from app.schemas import UserCreate
 
 router = APIRouter()
 u_svc = users_svc()
 
 @router.post("/")
-def create_user(name : str, email : str, password: str, db: Session= Depends(get_db)):
-    result = u_svc.create_user(db, name, email, password)
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    result = u_svc.create_user(db, user.name, user.email, user.password)
     if result["success"]:
-        return JSONResponse(status_code=201,content=result["message"])
-    return JSONResponse(status_code=404,content=result["message"])
+        return JSONResponse(status_code=201, content=result["message"])
+    return JSONResponse(status_code=404, content=result["message"])
 
 @router.post("/login")
 def login(db: Session= Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):
