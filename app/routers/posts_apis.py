@@ -4,14 +4,14 @@ from sqlalchemy.orm import Session
 from app.services.posts_svc import posts_svc
 from app.config import get_db
 from app.services.auth_svc import oauth2_scheme
-from app.schemas import Post
+from app.schemas import Post,CreatePost
 
 router = APIRouter()
 p_svc = posts_svc()
 
 @router.post("/")
-def create_post(title : str, content : str, userid : int, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    result = p_svc.create_post(db, title, content, userid)
+def create_post(post: CreatePost, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    result = p_svc.create_post(db, post.title, post.content, post.userid)
     if result["success"]: 
         return JSONResponse(status_code=201,content= result["message"])
     return JSONResponse(status_code= 404,content= result["message"])

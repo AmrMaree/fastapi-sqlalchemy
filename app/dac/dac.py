@@ -28,7 +28,7 @@ class dac:
             if login_password == hashed_password:
                 print("Login successful")
                 token = auth_svc.encode_auth_token(email)
-                return token
+                return token,result.id
             else:
                 print("Incorrect password")
                 return False
