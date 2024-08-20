@@ -61,6 +61,18 @@ class dac:
             print("Failed to create a new post")
             raise ex
         return post
+    
+    def edit_post(self, db : Session, post_id : int , title :str , content :str):
+        try:
+            post= db.query(models.Post).filter(models.Post.id == post_id).first() 
+            post.title = title
+            post.content = content
+            db.commit()
+            db.refresh(post)
+        except Exception as ex:
+            print("Failed to edit post")
+            raise ex
+        return post
 
     def delete_post(self, db : Session, id : int):
         try:
@@ -76,6 +88,9 @@ class dac:
 
     def get_posts(self, db : Session):
         return db.query(models.Post).all()
+    
+    def get_post_by_id(self, id : int ,db : Session):
+        return db.query(models.Post).filter(models.Post.id == id).first()
     
     def create_comment(self, db : Session, content : str, post_id: int, user_id : int):
         try:

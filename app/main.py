@@ -11,7 +11,7 @@ from app.routers import users_apis,posts_apis,comments_apis
 
 models.Base.metadata.create_all(engine)
 
-app = FastAPI(title="My FastAPI Project", description="This is my Project's API Service")
+app = FastAPI(title="My FastAPI Project", description="This is my Project's API Service") #change here
 
 app.add_middleware(
     CORSMiddleware,
