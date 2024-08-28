@@ -10,7 +10,7 @@ class dac:
     def create_user(self, db:Session, name :str ,email: str, password : str):
         try:
             hashed_password,salt = utils.hash_password_sign_up(password)
-            user = models.User(name=name,email=email,password=hashed_password,salt=salt)
+            user = models.User(name=name,email=email,password=hashed_password,salt=salt,role="User")
             db.add(user)
             db.commit()
             db.refresh(user)
@@ -87,7 +87,7 @@ class dac:
             raise ex
 
     def get_posts(self, db : Session):
-        return db.query(models.Post).all()
+        return db.query(models.Post).order_by(models.Post.id).all()
     
     def get_post_by_id(self, id : int ,db : Session):
         return db.query(models.Post).filter(models.Post.id == id).first()
@@ -103,8 +103,11 @@ class dac:
             raise ex
         return comment
     
+    def get_comment_by_id(self, id : int ,db : Session):
+        return db.query(models.Comment).filter(models.Comment.id == id).first()
+
     def get_post_comments(self, db : Session, post_id : int):
-        return db.query(models.Comment).filter(models.Comment.post_id == post_id).all() 
+        return db.query(models.Comment).filter(models.Comment.post_id == post_id).order_by(models.Comment.id).all() 
     
     def delete_comment(self, db : Session, id : int):
         try:
@@ -117,3 +120,14 @@ class dac:
         except Exception as ex:
             print("Failed to delete comment")
             raise ex
+        
+    def edit_comment(self, db : Session, comment_id : int, content : str):
+        try:
+            comment= db.query(models.Comment).filter(models.Comment.id == comment_id).first() 
+            comment.content = content
+            db.commit()
+            db.refresh(comment)
+        except Exception as ex:
+            print("Failed to edit commentt")
+            raise ex
+        return comment

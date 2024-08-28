@@ -17,8 +17,8 @@ def create_post(post: CreatePost, db : Session = Depends(get_db), token: str = D
     return JSONResponse(status_code= 404,content= result["message"])
 
 @router.delete("/{post_id}")
-def delete_post(id : int, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    result = p_svc.delete_post(db, id)
+def delete_post(post_id : int, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    result = p_svc.delete_post(db, post_id)
     if result["success"]: 
         return JSONResponse(status_code=200,content= result["message"])
     return JSONResponse(status_code= 404,content= result["message"])

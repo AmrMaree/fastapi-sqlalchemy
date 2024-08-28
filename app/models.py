@@ -9,6 +9,7 @@ class User(Base):
         email = Column('email', String(50), unique=True, index=True, nullable=False)
         password = Column('password', String(100),nullable=False)
         salt = Column('salt', String(100),nullable=False)
+        role = Column('role', String(50))
 
         posts = relationship('Post', backref='user', cascade='all, delete-orphan')
         comments = relationship('Comment', backref='user', cascade='all, delete-orphan')

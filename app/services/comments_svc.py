@@ -17,3 +17,11 @@ class comments_svc:
         if self.dac.delete_comment(db, id):
             return {"message": "Deleted comment successfully", "success": True}
         return {"message": "Failed to delete comment", "success": False}
+    
+    def edit_comment(self, db : Session, comment_id : int, content : str):
+        if self.dac.edit_comment(db, comment_id, content):
+            return {"message": "Edited comment successfully", "success": True}
+        return {"message": "Failed to edit comment", "success": False}
+    
+    def get_comment_by_id(self, id : int, db : Session):
+        return self.dac.get_comment_by_id(id, db)
