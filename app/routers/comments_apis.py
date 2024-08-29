@@ -4,13 +4,13 @@ from sqlalchemy.orm import Session
 from app.services.comments_svc import comments_svc
 from app.config import get_db
 from app.services.auth_svc import oauth2_scheme
-from app.schemas import Comment, CreateComment
+from app.schemas import Comment
 
 router = APIRouter()
 c_svc = comments_svc()
 
 @router.post("/posts/{post_id}/comments")
-def create_comment(post_id: int, comment: CreateComment, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+def create_comment(post_id: int, comment: Comment, db : Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     result = c_svc.create_comment(db, comment.content, post_id , comment.userid)
     if result["success"]: 
         return JSONResponse(status_code=201,content= result["message"])

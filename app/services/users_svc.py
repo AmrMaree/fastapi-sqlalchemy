@@ -24,3 +24,11 @@ class users_svc:
             return {"message": "Deleted user successfully", "success": True}
         return {"message": "Failed to delete user", "success": False}
     
+    def get_user_by_id(self, id : int, db : Session):
+        return self.dac.get_user_by_id(id, db)
+    
+    def edit_user(self, db : Session, user_id : int , name : str, email : str, role : str):
+        if self.dac.edit_user(db, user_id, name, email, role):
+            return {"message": "Edited user successfully", "success": True}
+        return {"message": "Failed to edit user", "success": False}
+    

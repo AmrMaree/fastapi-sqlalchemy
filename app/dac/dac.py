@@ -35,10 +35,26 @@ class dac:
         except Exception as ex:
             print("Failed to login")
             raise ex
+        
+    def edit_user(self, db : Session, user_id : int ,name : str ,email : str, role : str):
+        try:
+            user = db.query(models.User).filter(models.User.id == user_id).first() 
+            user.name = name
+            user.email = email
+            user.role = role
+            db.commit()
+            db.refresh(user)
+        except Exception as ex:
+            print("Failed to edit user")
+            raise ex
+        return user
     
     def get_users(self, db: Session):
-        return db.query(models.User).all()
+        return db.query(models.User).order_by(models.User.id).all()
     
+    def get_user_by_id(self, id : int ,db : Session):
+        return db.query(models.User).filter(models.User.id == id).first()
+
     def delete_user(self, db : Session, id : int):
         try:
             user= db.query(models.User).filter(models.User.id == id).first()
@@ -131,3 +147,10 @@ class dac:
             print("Failed to edit commentt")
             raise ex
         return comment
+    
+    def search_users(self, db : Session, search_query : str):
+        return db.query(models.User).filter(models.User.name.ilike(f"%{search_query}%")).all()
+
+    def search_posts(self, db : Session, search_query : str):
+        return db.query(models.Post).filter(models.Post.title.ilike(f"%{search_query}%")).all()
+    

@@ -1,12 +1,18 @@
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 
-class UserCreate(BaseModel):
+class User(BaseModel):
     name: str
     email: EmailStr
     password: str
 
+class EditUser(BaseModel):
+    name: str
+    email: EmailStr
+    role: str
+
 class Post(BaseModel):
-    post_id: int
+    post_id: Optional[int] = None
     title: str
     content: str
 
@@ -16,8 +22,5 @@ class CreatePost(BaseModel):
     userid: int
 
 class Comment(BaseModel):
-    content: str
-
-class CreateComment (BaseModel):
-    userid: int
+    userid: Optional[int] = None
     content: str

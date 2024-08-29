@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app import models
 from app.config import engine
-from app.routers import users_apis,posts_apis,comments_apis
+from app.routers import users_apis,posts_apis,comments_apis,search_apis
 
 models.Base.metadata.create_all(engine)
 
@@ -28,6 +28,7 @@ def root():
 app.include_router(users_apis.router, prefix="/users",tags=["users"])
 app.include_router(posts_apis.router,prefix="/posts",tags=["posts"])
 app.include_router(comments_apis.router, prefix="", tags=["comments"])
+app.include_router(search_apis.router, prefix="",tags=["search"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host= "0.0.0.0", port=8000)
